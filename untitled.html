@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой Блог</title>
+    <style>
+        body {
+            background-color: #1e1e1e; /* Чёрный фон */
+            color: #ffffff; /* Белый текст */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #8b0000; /* Бордовый цвет */
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            color: #00ced1; /* Бирюзовый цвет */
+            margin: 0;
+        }
+        nav {
+            background-color: #333333;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: #ffffff;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover {
+            color: #00ced1; /* Бирюзовый при наведении */
+        }
+        .content {
+            padding: 20px;
+        }
+        .content h2 {
+            color: #8b0000; /* Бордовый цвет */
+        }
+        .content p {
+            line-height: 1.6;
+        }
+        .edit-area {
+            display: none;
+            margin-top: 10px;
+        }
+        .admin-panel {
+            display: none;
+            background-color: #444444;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+        .admin-panel input[type="password"] {
+            padding: 5px;
+            margin-right: 10px;
+        }
+        .admin-panel button {
+            padding: 5px 10px;
+            background-color: #8b0000;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+        }
+        footer {
+            background-color: #333333;
+            padding: 10px;
+            text-align: center;
+            color: #ffffff;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 id="blog-title">Мой Личный Блог</h1>
+    </header>
+
+    <nav>
+        <a href="#">Обо мне</a>
+        <a href="#">Блог</a>
+        <a href="#">Контакты</a>
+    </nav>
+
+    <div class="content">
+        <h2 id="section-title">Обо мне</h2>
+        <p id="blog-content">Добро пожаловать на мой блог! Меня зовут [Ваше имя]. Я [ваша профессия или хобби]. Этот блог я создал для того, чтобы делиться своими мыслями, идеями и опытом.</p>
+        <div class="edit-area">
+            <textarea id="edit-content" rows="5" style="width: 100%;"></textarea>
+            <button onclick="saveContent()">Сохранить изменения</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2024 Мой Личный Блог</p>
+    </footer>
+
+    <div class="admin-panel">
+        <input type="password" id="admin-password" placeholder="Введите пароль">
+        <button onclick="login()">Войти</button>
+        <button onclick="toggleEdit()">Редактировать страницу</button>
+    </div>
+
+    <script>
+        const correctPassword = "admin123"; // Установите свой пароль
+
+        function login() {
+            const password = document.getElementById("admin-password").value;
+            if (password === correctPassword) {
+                document.querySelector('.admin-panel').style.display = 'none';
+                document.querySelector('.edit-area').style.display = 'block';
+                document.getElementById("edit-content").value = document.getElementById("blog-content").innerText;
+            } else {
+                alert("Неверный пароль!");
+            }
+        }
+
+        function toggleEdit() {
+            const editArea = document.querySelector('.edit-area');
+            if (editArea.style.display === 'none') {
+                editArea.style.display = 'block';
+                document.getElementById("edit-content").value = document.getElementById("blog-content").innerText;
+            } else {
+                editArea.style.display = 'none';
+            }
+        }
+
+        function saveContent() {
+            const newContent = document.getElementById("edit-content").value;
+            document.getElementById("blog-content").innerText = newContent;
+            localStorage.setItem('blogContent', newContent);
+        }
+
+        window.onload = function() {
+            const savedContent = localStorage.getItem('blogContent');
+            if (savedContent) {
+                document.getElementById("blog-content").innerText = savedContent;
+            }
+            document.querySelector('.admin-panel').style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>
